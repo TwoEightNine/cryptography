@@ -9,17 +9,14 @@ INCLUDES = """
 """
 
 TYPES = """
-struct gh_key_st {
-    ...;
-};
-typedef struct gh_key_st GH_KEY;
+typedef ... GH_KEY;
 """
 
 FUNCTIONS = """
-void GH_encrypt(const unsigned char *in, unsigned char *out,
-                 const GH_KEY *key);
-void GH_decrypt(const unsigned char *in, unsigned char *out,
-                 const GH_KEY *key);
+void GH_encrypt(const unsigned char *, unsigned char *,
+                 const GH_KEY *);
+void GH_decrypt(const unsigned char *, unsigned char *,
+                 const GH_KEY *);
 """
 
 CUSTOMIZATIONS = """

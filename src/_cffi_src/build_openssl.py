@@ -76,6 +76,7 @@ ffi = build_ffi_for_binding(
         "err",
         "evp",
         "fips",
+        "grasshopper",
         "hmac",
         "nid",
         "objects",

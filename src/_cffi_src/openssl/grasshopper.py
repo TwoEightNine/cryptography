@@ -5,18 +5,22 @@
 from __future__ import absolute_import, division, print_function
 
 INCLUDES = """
-#include <openssl/grasshopper.h>
+#include <openssl/gost_grasshopper.h>
 """
 
 TYPES = """
-typedef ... GH_KEY;
+typedef ... GHGOST_KEY;
 """
 
 FUNCTIONS = """
-void GH_encrypt(const unsigned char *, unsigned char *,
-                 const GH_KEY *);
-void GH_decrypt(const unsigned char *, unsigned char *,
-                 const GH_KEY *);
+void GHGOST_encrypt(const unsigned char *, unsigned char *,
+                    const GHGOST_KEY *);
+void GHGOST_decrypt(const unsigned char *, unsigned char *,
+                    const GHGOST_KEY *);
+int GHGOST_set_encrypt_key(const unsigned char *, const int,
+                           GHGOST_KEY *);
+int GHGOST_set_decrypt_key(const unsigned char *, const int,
+                           GHGOST_KEY *);
 """
 
 CUSTOMIZATIONS = """

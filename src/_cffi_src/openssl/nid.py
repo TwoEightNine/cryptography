@@ -15,6 +15,7 @@ static const int Cryptography_HAS_ED448;
 static const int Cryptography_HAS_ED25519;
 
 static const int NID_undef;
+static const int NID_ghgost;
 static const int NID_dsa;
 static const int NID_dsaWithSHA;
 static const int NID_dsaWithSHA1;

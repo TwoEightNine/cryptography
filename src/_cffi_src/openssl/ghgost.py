@@ -5,7 +5,7 @@
 from __future__ import absolute_import, division, print_function
 
 INCLUDES = """
-#include <openssl/gost_grasshopper.h>
+#include <openssl/ghgost.h>
 """
 
 TYPES = """

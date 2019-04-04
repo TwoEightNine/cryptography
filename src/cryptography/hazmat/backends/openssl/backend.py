@@ -69,7 +69,7 @@ from cryptography.hazmat.primitives.asymmetric.padding import (
     MGF1, OAEP, PKCS1v15, PSS
 )
 from cryptography.hazmat.primitives.ciphers.algorithms import (
-    AES, ARC4, Blowfish, CAST5, Camellia, ChaCha20, IDEA, SEED, TripleDES
+    AES, ARC4, Blowfish, CAST5, GHGOST, Camellia, ChaCha20, IDEA, SEED, TripleDES
 )
 from cryptography.hazmat.primitives.ciphers.modes import (
     CBC, CFB, CFB8, CTR, ECB, GCM, OFB, XTS
@@ -249,6 +249,11 @@ class Backend(object):
             TripleDES,
             ECB,
             GetCipherByName("des-ede3")
+        )
+        self.register_cipher_adapter(
+            GHGOST,
+            ECB,
+            GetCipherByName("ghgost")
         )
         for mode_cls in [CBC, CFB, OFB, ECB]:
             self.register_cipher_adapter(

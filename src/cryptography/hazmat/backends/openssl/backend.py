@@ -250,11 +250,12 @@ class Backend(object):
             ECB,
             GetCipherByName("des-ede3")
         )
-        self.register_cipher_adapter(
-            GHGOST,
-            ECB,
-            GetCipherByName("ghgost")
-        )
+        for mode_cls in [ECB, CBC, OFB, CFB, CTR]:
+            self.register_cipher_adapter(
+                GHGOST,
+                mode_cls,
+                GetCipherByName("ghgost-{mode.name}")
+            )
         for mode_cls in [CBC, CFB, OFB, ECB]:
             self.register_cipher_adapter(
                 Blowfish,

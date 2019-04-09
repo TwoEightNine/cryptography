@@ -6,7 +6,6 @@ from __future__ import absolute_import, division, print_function
 
 INCLUDES = """
 #include <openssl/ghgost.h>
-#include <stdint.h>
 """
 
 TYPES = """
@@ -14,14 +13,16 @@ typedef ... GHGOST_KEY;
 """
 
 FUNCTIONS = """
-void GHGOST_encrypt(const unsigned char *, unsigned char *,
-                    const GHGOST_KEY *);
-void GHGOST_decrypt(const unsigned char *, unsigned char *,
-                    const GHGOST_KEY *);
-int GHGOST_set_encrypt_key(const unsigned char *, const int,
-                           GHGOST_KEY *);
-int GHGOST_set_decrypt_key(const unsigned char *, const int,
-                           GHGOST_KEY *);
+void GHGOST_encrypt(const unsigned char *in, unsigned char *out,
+                    const GHGOST_KEY *key);
+
+void GHGOST_decrypt(const unsigned char *in, unsigned char *out,
+                    const GHGOST_KEY *key);
+
+void GHGOST_set_key(const unsigned char *userKey, const int bits,
+                           GHGOST_KEY *key);
+
+void GHGOST_get_mac_key(const GHGOST_KEY *key, unsigned char *mac_key);
 """
 
 CUSTOMIZATIONS = """

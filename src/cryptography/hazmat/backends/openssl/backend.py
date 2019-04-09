@@ -256,6 +256,11 @@ class Backend(object):
                 mode_cls,
                 GetCipherByName("ghgost-{mode.name}")
             )
+        self.register_cipher_adapter(
+            GHGOST,
+            GCM,
+            GetCipherByName("ghgost-ae")
+        )
         for mode_cls in [CBC, CFB, OFB, ECB]:
             self.register_cipher_adapter(
                 Blowfish,

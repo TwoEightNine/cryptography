@@ -72,7 +72,7 @@ from cryptography.hazmat.primitives.ciphers.algorithms import (
     AES, ARC4, Blowfish, CAST5, GHGOST, Camellia, ChaCha20, IDEA, SEED, TripleDES
 )
 from cryptography.hazmat.primitives.ciphers.modes import (
-    CBC, CFB, CFB8, CTR, ECB, GCM, OFB, XTS
+    CBC, CFB, CFB8, CTR, ECB, GCM, OFB, XTS, AE, EAX
 )
 from cryptography.hazmat.primitives.kdf import scrypt
 from cryptography.hazmat.primitives.serialization import ssh
@@ -250,17 +250,12 @@ class Backend(object):
             ECB,
             GetCipherByName("des-ede3")
         )
-        for mode_cls in [ECB, CBC, OFB, CFB, CTR]:
+        for mode_cls in [ECB, CBC, OFB, CFB, CTR, AE, EAX]:
             self.register_cipher_adapter(
                 GHGOST,
                 mode_cls,
                 GetCipherByName("ghgost-{mode.name}")
             )
-        self.register_cipher_adapter(
-            GHGOST,
-            GCM,
-            GetCipherByName("ghgost-ae")
-        )
         for mode_cls in [CBC, CFB, OFB, ECB]:
             self.register_cipher_adapter(
                 Blowfish,

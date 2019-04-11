@@ -216,3 +216,60 @@ class GCM(object):
 
     def validate_for_algorithm(self, algorithm):
         _check_aes_key_length(self, algorithm)
+
+
+#
+# ghgost modes
+#
+
+
+@utils.register_interface(Mode)
+@utils.register_interface(ModeWithInitializationVector)
+@utils.register_interface(ModeWithAuthenticationTag)
+class AE(object):
+    name = "AE"
+    _MAX_ENCRYPTED_BYTES = (2 ** 39 - 256) // 8
+    _MAX_AAD_BYTES = (2 ** 64) // 8
+    _TAG_LEN = 16
+
+    def __init__(self, initialization_vector, tag=None):
+        utils._check_byteslike("initialization_vector", initialization_vector)
+        self._initialization_vector = initialization_vector
+        if tag is not None:
+            utils._check_bytes("tag", tag)
+            if len(tag) != self._TAG_LEN:
+                raise ValueError(
+                    "Authentication tag must be {0} bytes.".format(
+                        self._TAG_LEN)
+                )
+        self._tag = tag
+
+    tag = utils.read_only_property("_tag")
+    initialization_vector = utils.read_only_property("_initialization_vector")
+    validate_for_algorithm = _check_iv_length
+
+
+@utils.register_interface(Mode)
+@utils.register_interface(ModeWithInitializationVector)
+@utils.register_interface(ModeWithAuthenticationTag)
+class EAX(object):
+    name = "EAX"
+    _MAX_ENCRYPTED_BYTES = (2 ** 39 - 256) // 8
+    _MAX_AAD_BYTES = (2 ** 64) // 8
+    _TAG_LEN = 16
+
+    def __init__(self, initialization_vector, tag=None):
+        utils._check_byteslike("initialization_vector", initialization_vector)
+        self._initialization_vector = initialization_vector
+        if tag is not None:
+            utils._check_bytes("tag", tag)
+            if len(tag) != self._TAG_LEN:
+                raise ValueError(
+                    "Authentication tag must be {0} bytes.".format(
+                        self._TAG_LEN)
+                )
+        self._tag = tag
+
+    tag = utils.read_only_property("_tag")
+    initialization_vector = utils.read_only_property("_initialization_vector")
+    validate_for_algorithm = _check_iv_length

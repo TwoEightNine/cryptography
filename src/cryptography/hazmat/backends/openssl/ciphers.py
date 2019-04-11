@@ -81,7 +81,7 @@ class _CipherContext(object):
             ctx, len(cipher.key)
         )
         self._backend.openssl_assert(res != 0)
-        if isinstance(mode, modes.GCM):
+        if self.__is_with_tag():
             res = self._backend._lib.EVP_CIPHER_CTX_ctrl(
                 ctx, self._backend._lib.EVP_CTRL_AEAD_SET_IVLEN,
                 len(iv_nonce), self._backend._ffi.NULL
@@ -148,7 +148,7 @@ class _CipherContext(object):
         # even if you are only using authenticate_additional_data or the
         # GCM tag will be wrong. An (empty) call to update resolves this
         # and is harmless for all other versions of OpenSSL.
-        if isinstance(self._mode, modes.GCM):
+        if self.__is_with_tag():
             self.update(b"")
 
         if (
@@ -166,7 +166,7 @@ class _CipherContext(object):
         if res == 0:
             errors = self._backend._consume_errors()
 
-            if not errors and isinstance(self._mode, modes.GCM):
+            if not errors and self.__is_with_tag():
                 raise InvalidTag
 
             self._backend.openssl_assert(
@@ -180,7 +180,7 @@ class _CipherContext(object):
                 "the block length."
             )
 
-        if (isinstance(self._mode, modes.GCM) and
+        if (self.__is_with_tag() and
            self._operation == self._ENCRYPT):
             tag_buf = self._backend._ffi.new(
                 "unsigned char[]", self._block_size_bytes
@@ -225,5 +225,10 @@ class _CipherContext(object):
             self._backend._ffi.from_buffer(data), len(data)
         )
         self._backend.openssl_assert(res != 0)
+
+    def __is_with_tag(self):
+        return isinstance(self._mode, modes.GCM) \
+               or isinstance(self._mode, modes.AE) \
+               or isinstance(self._mode, modes.EAX)
 
     tag = utils.read_only_property("_tag")

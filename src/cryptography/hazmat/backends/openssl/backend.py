@@ -227,12 +227,17 @@ class Backend(object):
         self._cipher_registry[cipher_cls, mode_cls] = adapter
 
     def _register_default_ciphers(self):
-        for mode_cls in [CBC, CTR, ECB, OFB, CFB, CFB8, GCM]:
+        for mode_cls in [CBC, CTR, ECB, OFB, CFB, CFB8, GCM, EAX]:
             self.register_cipher_adapter(
                 AES,
                 mode_cls,
                 GetCipherByName("{cipher.name}-{cipher.key_size}-{mode.name}")
             )
+        # self.register_cipher_adapter(
+        #     AES,
+        #     EAX,
+        #     GetCipherByName("aes-128-eax")
+        # )
         for mode_cls in [CBC, CTR, ECB, OFB, CFB]:
             self.register_cipher_adapter(
                 Camellia,

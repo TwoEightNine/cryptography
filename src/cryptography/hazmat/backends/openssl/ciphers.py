@@ -7,7 +7,7 @@ from __future__ import absolute_import, division, print_function
 from cryptography import utils
 from cryptography.exceptions import InvalidTag, UnsupportedAlgorithm, _Reasons
 from cryptography.hazmat.primitives import ciphers
-from cryptography.hazmat.primitives.ciphers import modes
+from cryptography.hazmat.primitives.ciphers import modes, algorithms
 
 
 @utils.register_interface(ciphers.CipherContext)
@@ -229,6 +229,7 @@ class _CipherContext(object):
     def __is_with_tag(self):
         return isinstance(self._mode, modes.GCM) \
                or isinstance(self._mode, modes.AE) \
-               or isinstance(self._mode, modes.EAX)
+               or isinstance(self._mode, modes.EAX) \
+               or isinstance(self._mode, modes.AEGIS)
 
     tag = utils.read_only_property("_tag")

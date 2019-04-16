@@ -8,7 +8,8 @@ from cryptography import utils
 from cryptography.hazmat.primitives.ciphers import (
     BlockCipherAlgorithm, CipherAlgorithm
 )
-from cryptography.hazmat.primitives.ciphers.modes import ModeWithNonce
+from cryptography.hazmat.primitives.ciphers.modes import ModeWithNonce, ModeWithAuthenticationTag, \
+    ModeWithInitializationVector
 
 
 def _verify_key_size(algorithm, key):
@@ -176,6 +177,21 @@ class ChaCha20(object):
         self._nonce = nonce
 
     nonce = utils.read_only_property("_nonce")
+
+    @property
+    def key_size(self):
+        return len(self.key) * 8
+
+
+@utils.register_interface(BlockCipherAlgorithm)
+@utils.register_interface(CipherAlgorithm)
+class AEGIS(object):
+    name = "AEGIS"
+    block_size = 128
+    key_sizes = frozenset([128])
+
+    def __init__(self, key):
+        self.key = _verify_key_size(self, key)
 
     @property
     def key_size(self):

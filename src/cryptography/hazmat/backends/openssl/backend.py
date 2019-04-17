@@ -295,7 +295,7 @@ class Backend(object):
         self.register_cipher_adapter(
             AEGIS,
             AEGISMODE,
-            GetCipherByName("aegis-128l")
+            GetCipherByName("aegis-{cipher.key_size}")
         )
         self.register_cipher_adapter(AES, XTS, _get_xts_cipher)
 

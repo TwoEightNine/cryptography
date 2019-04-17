@@ -298,4 +298,9 @@ class AEGIS(object):
 
     tag = utils.read_only_property("_tag")
     initialization_vector = utils.read_only_property("_initialization_vector")
-    validate_for_algorithm = _check_iv_length
+
+    def validate_for_algorithm(self, algorithm):
+        if len(self.initialization_vector) * 8 not in [128, 256]:
+            raise ValueError("Invalid IV size ({0}) for {1}.".format(
+                len(self.initialization_vector), self.name
+            ))

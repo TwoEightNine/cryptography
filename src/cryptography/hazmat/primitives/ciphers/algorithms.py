@@ -188,10 +188,11 @@ class ChaCha20(object):
 class AEGIS(object):
     name = "AEGIS"
     block_size = 128
-    key_sizes = frozenset([128])
+    key_sizes = frozenset([128, 256])
 
     def __init__(self, key):
         self.key = _verify_key_size(self, key)
+        self.block_size = self.key_size
 
     @property
     def key_size(self):

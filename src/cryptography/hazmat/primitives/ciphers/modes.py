@@ -275,11 +275,13 @@ class EAX(object):
     validate_for_algorithm = _check_iv_length
 
 
+# used only from AEGIS
+
 @utils.register_interface(Mode)
 @utils.register_interface(ModeWithInitializationVector)
 @utils.register_interface(ModeWithAuthenticationTag)
 class AEGIS(object):
-    name = "AEGIS"
+    name = ""
     _MAX_ENCRYPTED_BYTES = (2 ** 39 - 256) // 8
     _MAX_AAD_BYTES = (2 ** 64) // 8
     _TAG_LEN = 16
@@ -300,6 +302,8 @@ class AEGIS(object):
     initialization_vector = utils.read_only_property("_initialization_vector")
 
     def validate_for_algorithm(self, algorithm):
+        if "AEGIS" not in algorithm.name:
+            raise TypeError("AEGIS mode is stub and should be used only with AEGIS or AEGIS-L ciphers")
         if len(self.initialization_vector) * 8 not in [128, 256]:
             raise ValueError("Invalid IV size ({0}) for {1}.".format(
                 len(self.initialization_vector), self.name

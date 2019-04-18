@@ -69,7 +69,7 @@ from cryptography.hazmat.primitives.asymmetric.padding import (
     MGF1, OAEP, PKCS1v15, PSS
 )
 from cryptography.hazmat.primitives.ciphers.algorithms import (
-    AEGIS, AES, ARC4, Blowfish, CAST5, GHGOST, Camellia, ChaCha20, IDEA, SEED, TripleDES
+    AEGIS, AEGISL, AES, ARC4, Blowfish, CAST5, GHGOST, Camellia, ChaCha20, IDEA, SEED, TripleDES
 )
 from cryptography.hazmat.primitives.ciphers.modes import (
     AEGIS as AEGISMODE, CBC, CFB, CFB8, CTR, ECB, GCM, OFB, XTS, AE, EAX
@@ -296,6 +296,11 @@ class Backend(object):
             AEGIS,
             AEGISMODE,
             GetCipherByName("aegis-{cipher.key_size}")
+        )
+        self.register_cipher_adapter(
+            AEGISL,
+            AEGISMODE,
+            GetCipherByName("aegis-128l")
         )
         self.register_cipher_adapter(AES, XTS, _get_xts_cipher)
 

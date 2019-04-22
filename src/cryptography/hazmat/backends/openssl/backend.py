@@ -69,10 +69,10 @@ from cryptography.hazmat.primitives.asymmetric.padding import (
     MGF1, OAEP, PKCS1v15, PSS
 )
 from cryptography.hazmat.primitives.ciphers.algorithms import (
-    AEGIS, AEGISL, AES, ARC4, Blowfish, CAST5, GHGOST, Camellia, ChaCha20, IDEA, SEED, TripleDES
+    AEGIS, AEGISL, AES, ARC4, Blowfish, CAST5, Deoxys, GHGOST, Camellia, ChaCha20, IDEA, SEED, TripleDES
 )
 from cryptography.hazmat.primitives.ciphers.modes import (
-    AEGIS as AEGISMODE, CBC, CFB, CFB8, CTR, ECB, GCM, OFB, XTS, AE, EAX
+    AEGIS as AEGISMODE, CBC, CFB, CFB8, CTR, DeoxysMode, ECB, GCM, OFB, XTS, AE, EAX
 )
 from cryptography.hazmat.primitives.kdf import scrypt
 from cryptography.hazmat.primitives.serialization import ssh
@@ -301,6 +301,11 @@ class Backend(object):
             AEGISL,
             AEGISMODE,
             GetCipherByName("aegis-128l")
+        )
+        self.register_cipher_adapter(
+            Deoxys,
+            DeoxysMode,
+            GetCipherByName("deoxys-128")
         )
         self.register_cipher_adapter(AES, XTS, _get_xts_cipher)
 

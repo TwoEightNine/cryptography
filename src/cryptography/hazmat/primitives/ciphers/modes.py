@@ -308,3 +308,38 @@ class AEGIS(object):
             raise ValueError("Invalid IV size ({0}) for {1}.".format(
                 len(self.initialization_vector), self.name
             ))
+
+
+# only for deoxys
+
+@utils.register_interface(Mode)
+@utils.register_interface(ModeWithNonce)
+@utils.register_interface(ModeWithAuthenticationTag)
+class DeoxysMode(object):
+    name = ""
+    _MAX_ENCRYPTED_BYTES = (2 ** 39 - 256) // 8
+    _MAX_AAD_BYTES = (2 ** 64) // 8
+    _TAG_LEN = 16
+
+    def __init__(self, nonce, tag=None):
+        utils._check_byteslike("nonce", nonce)
+        self._nonce = nonce
+        if tag is not None:
+            utils._check_bytes("tag", tag)
+            if len(tag) != self._TAG_LEN:
+                raise ValueError(
+                    "Authentication tag must be {0} bytes.".format(
+                        self._TAG_LEN)
+                )
+        self._tag = tag
+
+    tag = utils.read_only_property("_tag")
+    nonce = utils.read_only_property("_nonce")
+
+    def validate_for_algorithm(self, algorithm):
+        if "Deoxys" not in algorithm.name:
+            raise TypeError("Deoxys mode is stub and should be used only with Deoxys cipher")
+        if len(self.nonce) * 8 != 128:
+            raise ValueError("Invalid nonce size ({0}) for {1}.".format(
+                len(self.nonce), self.name
+            ))

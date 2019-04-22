@@ -227,9 +227,6 @@ class _CipherContext(object):
         self._backend.openssl_assert(res != 0)
 
     def __is_with_tag(self):
-        return isinstance(self._mode, modes.GCM) \
-               or isinstance(self._mode, modes.AE) \
-               or isinstance(self._mode, modes.EAX) \
-               or isinstance(self._mode, modes.AEGIS)
+        return isinstance(self._mode, modes.ModeWithAuthenticationTag)
 
     tag = utils.read_only_property("_tag")

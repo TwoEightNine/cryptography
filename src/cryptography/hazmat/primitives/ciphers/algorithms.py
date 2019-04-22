@@ -222,7 +222,7 @@ class AEGISL(object):
 class Deoxys(object):
     name = "Deoxys"
     block_size = 128
-    key_sizes = frozenset([128])
+    key_sizes = frozenset([128, 256])
 
     def __init__(self, key):
         self.key = _verify_key_size(self, key)

@@ -305,7 +305,7 @@ class Backend(object):
         self.register_cipher_adapter(
             Deoxys,
             DeoxysMode,
-            GetCipherByName("deoxys-128")
+            GetCipherByName("deoxys-{cipher.key_size}")
         )
         self.register_cipher_adapter(AES, XTS, _get_xts_cipher)
 

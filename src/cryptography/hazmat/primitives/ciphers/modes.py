@@ -339,7 +339,7 @@ class DeoxysMode(object):
     def validate_for_algorithm(self, algorithm):
         if "Deoxys" not in algorithm.name:
             raise TypeError("Deoxys mode is stub and should be used only with Deoxys cipher")
-        if len(self.nonce) * 8 != 128:
+        if len(self.nonce) * 8 != 64:
             raise ValueError("Invalid nonce size ({0}) for {1}.".format(
                 len(self.nonce), self.name
             ))

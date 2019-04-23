@@ -69,7 +69,7 @@ from cryptography.hazmat.primitives.asymmetric.padding import (
     MGF1, OAEP, PKCS1v15, PSS
 )
 from cryptography.hazmat.primitives.ciphers.algorithms import (
-    AEGIS, AEGISL, AES, ARC4, Blowfish, CAST5, Deoxys, GHGOST, Camellia, ChaCha20, IDEA, SEED, TripleDES
+    AEGIS, AEGISL, AES, ARC4, Blowfish, CAST5, Deoxys, GHGOST, MGMGOST, Camellia, ChaCha20, IDEA, SEED, TripleDES
 )
 from cryptography.hazmat.primitives.ciphers.modes import (
     AEGIS as AEGISMODE, CBC, CFB, CFB8, CTR, DeoxysMode, ECB, GCM, OFB, XTS, AE, EAX
@@ -307,6 +307,12 @@ class Backend(object):
             DeoxysMode,
             GetCipherByName("deoxys-{cipher.key_size}")
         )
+        for mode_cls in [ECB, CBC, OFB, CFB, CTR, AE, EAX]:
+            self.register_cipher_adapter(
+                MGMGOST,
+                mode_cls,
+                GetCipherByName("mgmgost-{mode.name}")
+            )
         self.register_cipher_adapter(AES, XTS, _get_xts_cipher)
 
     def create_symmetric_encryption_ctx(self, cipher, mode):
